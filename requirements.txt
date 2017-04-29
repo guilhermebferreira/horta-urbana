@@ -1,0 +1,17 @@
+appdirs==1.4.3
+Django==1.11
+djangorestframework==3.6.2
+packaging==16.8
+pyparsing==2.2.0
+pytz==2017.2
+six==1.10.0
+
+# heroku
+# run these commands to setup heroku properly
+# heroku create --stack cedar --buildpack git://github.com/heroku/heroku-buildpack-python.git
+# heroku config:add BUILDPACK_URL=git@github.com:heroku/heroku-buildpack-python.git#purge
+# heroku config:set HEROKU=1
+
+
+psycopg2==2.7.1
+dj-database-url==0.3.0
