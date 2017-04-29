@@ -37,6 +37,8 @@ class Cliente(models.Model):
 
 
 
+
+
 class Pacote(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     nome = models.CharField(max_length=50, blank=False)

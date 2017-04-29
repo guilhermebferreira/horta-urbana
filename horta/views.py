@@ -3,7 +3,7 @@ from collections import namedtuple
 
 from django.core import serializers
 from django.shortcuts import render
-from datetime import datetime
+import datetime
 from django.utils import formats
 from django.http import JsonResponse
 
@@ -75,6 +75,9 @@ def criar_pedido(request):
     try:
         p_pacote = Pacote.objects.get(id=request.data['pacote'])
         valor = float(0)
+        today = datetime.date.today()
+        terca = today + datetime.timedelta((1 - today.weekday()) % 7)
+        quinta = today + datetime.timedelta((3 - today.weekday()) % 7)
         for i in range(int(request.data['meses'])):
             for d in range(4):
                 for choice_id, choice_label in ITEM_CHOICES:
@@ -82,7 +85,8 @@ def criar_pedido(request):
                         cliente=p_cliente,
                         organico=p_pacote.organico,
                         item=choice_id,
-                        dia_semana=1
+                        dia_semana=1,
+                        data=terca
                     )
                     novo_pedido.save()
                 valor += float(p_pacote.preco)
@@ -93,10 +97,13 @@ def criar_pedido(request):
                             cliente=p_cliente,
                             organico=p_pacote.organico,
                             item=choice_id,
-                            dia_semana=2
+                            dia_semana=2,
+                            data=quinta
                         )
                         novo_pedido.save()
                     valor += float(p_pacote.preco)
+                    terca += datetime.timedelta(days=7)
+                    quinta += datetime.timedelta(days=7)
         p_cliente.preco = valor
         p_cliente.save()
 
@@ -155,6 +162,30 @@ def quantidade(request):
         response[choice_label] = str(m_quantidade)
 
     return JsonResponse(response)
+
+
+@api_view(('GET',))
+def assinatura_status(request):
+    response = {}
+    try:
+        pass
+        #select do cliente pelo facebook idtry:
+        #p_cliente = Cliente.objects.get(facebook_id=request.data['messenger user id'])
+    except Cliente.DoesNotExist:
+        pass
+        #response['periodicidade'] = "0"
+        #response['quantidade'] = "0"
+        #response['endereco'] = " teste "
+
+    #response['periodicidade'] = str(p_cliente.quantidade_semana)
+
+    #p_quantidade = Pedido.objects.filter(cliente=p_cliente).values('data').order_by('data')
+
+    #m_quantidade = len(p_quantidade)
+    #response['quantidade'] = str(m_quantidade)
+
+    return Response({"messages":[{"text":"🕐 Periodicidade: N vezes por semana \n📌 Endereço atual: XXXX \n📆 Quantidade de semanas a receber: N"}]})
+
 
 
 def _json_object_hook(d): return namedtuple('X', d.keys())(*d.values())

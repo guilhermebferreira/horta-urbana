@@ -15,7 +15,7 @@ class PacoteAdmin(admin.ModelAdmin):
     list_display = ('nome', 'descricao', 'organico')
 
 class PedidoAdmin(admin.ModelAdmin):
-    list_display = ('cliente_nome', 'item')
+    list_display = ('cliente_nome', 'item', 'data')
     list_filter = (
         ('cliente', admin.RelatedOnlyFieldListFilter),
     )
