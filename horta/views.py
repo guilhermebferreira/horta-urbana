@@ -184,7 +184,7 @@ def assinatura_status(request):
     #m_quantidade = len(p_quantidade)
     #response['quantidade'] = str(m_quantidade)
 
-    return Response({"messages":[{"text":"🕐 Periodicidade: N vezes por semana \n📌 Endereço atual: XXXX \n📆 Quantidade de semanas a receber: N"}]})
+    return Response({"messages":[{"text":"🕐 Periodicidade: 2 vezes por semana \n📌 Endereço atual: 1402 Sul (ACSU-SE 140) \n📆 Quantidade de semanas a receber: 24"}]})
 
 
 
