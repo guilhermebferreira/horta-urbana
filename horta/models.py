@@ -99,6 +99,9 @@ class Pedido(models.Model):
     dia_semana = models.IntegerField(choices=DIA_CHOICES, blank=False, default='1')
     data = models.DateField(null=True, blank=True)
 
+    def cliente_nome(self):
+        return self.cliente.nome
+
 
     def __unicode__(self):
         return u"%s - %s" % self.cliente.nome, self.item
