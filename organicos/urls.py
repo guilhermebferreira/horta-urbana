@@ -11,7 +11,7 @@ from rest_framework import routers
 # router.register(r'foco', views_foco.FocoSerializer)
 from rest_framework.urlpatterns import format_suffix_patterns
 
-from horta.views import PedidoViewSet, PacoteViewSet, FeiranteViewSet, ClienteViewSet, api_root, criar_pedido, pedidos_cliente
+from horta.views import PedidoViewSet, PacoteViewSet, FeiranteViewSet, ClienteViewSet, api_root, criar_pedido, quantidade
 from rest_framework import renderers
 
 pedido_list = PedidoViewSet.as_view({
@@ -53,6 +53,7 @@ urlpatterns = format_suffix_patterns([
     url(r'^pacotes/$', pacote_list, name='cliente-list'),
     url(r'^feirantes/$', feirante_list, name='feirante-list'),
     url(r'^pedir/$', criar_pedido, name='criar-pedido'),
+    url(r'^quantidade/$', quantidade, name='quantidade'),
     url(r'^clientes/(?P<pk>[0-9]+)/$', cliente_detail, name='cliente-detail'),
     url(r'^', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^admin/', admin.site.urls),

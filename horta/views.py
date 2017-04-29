@@ -5,6 +5,7 @@ from django.core import serializers
 from django.shortcuts import render
 from datetime import datetime
 from django.utils import formats
+from django.http import JsonResponse
 
 # Create your views here.
 from rest_framework.decorators import api_view
@@ -96,6 +97,8 @@ def criar_pedido(request):
                         )
                         novo_pedido.save()
                     valor += float(p_pacote.preco)
+        p_cliente.preco = valor
+        p_cliente.save()
 
     except Exception as e:
         return Response(
@@ -142,6 +145,16 @@ def api_root(request, format=None):
         'clientes': reverse('cliente-list', request=request, format=format),
         'feirantes': reverse('feirante-list', request=request, format=format)
     })
+
+@api_view(('GET',))
+def quantidade(request):
+    response = {}
+    for choice_id, choice_label in ITEM_CHOICES:
+        o_pedido = Pedido.objects.filter(item=choice_id).filter(status=2)
+        m_quantidade = len(o_pedido)
+        response[choice_label] = str(m_quantidade)
+
+    return JsonResponse(response)
 
 
 def _json_object_hook(d): return namedtuple('X', d.keys())(*d.values())
