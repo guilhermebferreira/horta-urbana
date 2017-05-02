@@ -15,17 +15,16 @@ from rest_framework.viewsets import (
     ModelViewSet,
 )
 
-from .models import Pedido, Feirante, Pacote, Cliente, ITEM_CHOICES
+from .models import Pedido, Feirante, Pacote, Cliente, ITEM_CHOICES, ALFACE, TOMATE, CHEIROVERDE, COUVE
 from .serializers import PedidoSerializer, FeiranteSerializer, PacoteSerializer, ClienteSerializer
 
-class PedidoViewSet(ModelViewSet):
 
+class PedidoViewSet(ModelViewSet):
     queryset = Pedido.objects.all()
     serializer_class = PedidoSerializer
 
 
 class PacoteViewSet(ModelViewSet):
-
     queryset = Pacote.objects.all()
     serializer_class = PacoteSerializer
 
@@ -54,12 +53,12 @@ def criar_pedido(request):
     #     "complemento": "RUa 01, fim da rua",
     #     "meses": "3"
     # }
-    #entregas todas as terças e quintas
+    # entregas todas as terças e quintas
     try:
-        #select do cliente pelo facebook idtry:
+        # select do cliente pelo facebook idtry:
         p_cliente = Cliente.objects.get(facebook_id=request.data['messenger user id'])
     except Cliente.DoesNotExist:
-        #criar cliente
+        # criar cliente
         p_cliente = Cliente(
             facebook_id=request.data['messenger user id'],
             nome=request.data['first name'],
@@ -71,7 +70,6 @@ def criar_pedido(request):
         )
         p_cliente.save()
 
-
     try:
         p_pacote = Pacote.objects.get(id=request.data['pacote'])
         valor = float(0)
@@ -80,62 +78,131 @@ def criar_pedido(request):
         quinta = today + datetime.timedelta((3 - today.weekday()) % 7)
         for i in range(int(request.data['meses'])):
             for d in range(4):
-                for choice_id, choice_label in ITEM_CHOICES:
+
+                # check ALFACE
+                if (p_pacote.item_alface):
                     novo_pedido = Pedido(
                         cliente=p_cliente,
                         organico=p_pacote.organico,
-                        item=choice_id,
+                        item=ALFACE,
                         dia_semana=1,
                         data=terca
                     )
                     novo_pedido.save()
-                valor += float(p_pacote.preco)
-
-                if request.data['periodicidade'] == '2':
-                    for choice_id, choice_label in ITEM_CHOICES:
+                    valor += float(p_pacote.preco)
+                    if request.data['periodicidade'] == '2':
                         novo_pedido = Pedido(
                             cliente=p_cliente,
                             organico=p_pacote.organico,
-                            item=choice_id,
+                            item=ALFACE,
                             dia_semana=2,
                             data=quinta
                         )
                         novo_pedido.save()
+                        valor += float(p_pacote.preco)
+
+                # check TOMATE
+                if (p_pacote.item_tomate):
+                    novo_pedido = Pedido(
+                        cliente=p_cliente,
+                        organico=p_pacote.organico,
+                        item=TOMATE,
+                        dia_semana=1,
+                        data=terca
+                    )
+                    novo_pedido.save()
                     valor += float(p_pacote.preco)
-                    terca += datetime.timedelta(days=7)
-                    quinta += datetime.timedelta(days=7)
+                    if request.data['periodicidade'] == '2':
+                        novo_pedido = Pedido(
+                            cliente=p_cliente,
+                            organico=p_pacote.organico,
+                            item=TOMATE,
+                            dia_semana=2,
+                            data=quinta
+                        )
+                        novo_pedido.save()
+                        valor += float(p_pacote.preco)
+
+                # check COUVE
+                if (p_pacote.item_couve):
+                    novo_pedido = Pedido(
+                        cliente=p_cliente,
+                        organico=p_pacote.organico,
+                        item=COUVE,
+                        dia_semana=1,
+                        data=terca
+                    )
+                    novo_pedido.save()
+                    valor += float(p_pacote.preco)
+                    if request.data['periodicidade'] == '2':
+                        novo_pedido = Pedido(
+                            cliente=p_cliente,
+                            organico=p_pacote.organico,
+                            item=COUVE,
+                            dia_semana=2,
+                            data=quinta
+                        )
+                        novo_pedido.save()
+                        valor += float(p_pacote.preco)
+
+                # check COUVE
+                if (p_pacote.item_cheiroverde):
+                    novo_pedido = Pedido(
+                        cliente=p_cliente,
+                        organico=p_pacote.organico,
+                        item=CHEIROVERDE,
+                        dia_semana=1,
+                        data=terca
+                    )
+                    novo_pedido.save()
+                    valor += float(p_pacote.preco)
+                    if request.data['periodicidade'] == '2':
+                        novo_pedido = Pedido(
+                            cliente=p_cliente,
+                            organico=p_pacote.organico,
+                            item=CHEIROVERDE,
+                            dia_semana=2,
+                            data=quinta
+                        )
+                        novo_pedido.save()
+                        valor += float(p_pacote.preco)
+
+                terca += datetime.timedelta(days=7)
+                quinta += datetime.timedelta(days=7)
+
         p_cliente.preco = valor
         p_cliente.save()
 
     except Exception as e:
         return Response(
             {
-                "message":  str(e),
-                "request" : request.data,
-                "cliente" : p_cliente.nome,
-                "teste" : request.data['chatfuel user id']
+                "message": str(e),
+                "request": request.data,
+                "cliente": p_cliente.nome,
+                "teste": request.data['chatfuel user id']
             })
 
     return Response({
-              "messages": [
-                {
-                  "attachment": {
+        "messages": [
+            {
+                "attachment": {
                     "type": "template",
                     "payload": {
-                      "template_type": "button",
-                      "text": "Obrigado por requisitar sua assinatura.\nPara finalizar, transfira o valor de R$ "+str(valor)+" para:\nBanco do Brasil\nConta corrente: xxxx-x\nConta Poupança: xxxxxx-x\nNOME DO CORRENTISTA",
-                      "buttons": [
-                        {
-                          "type": "show_block",
-                          "block_name": "COMPROVANTE",
-                          "title": "Enviar comprovante"
-                        }
-                      ]
+                        "template_type": "button",
+                        "text": "Obrigado por requisitar sua assinatura.\nPara finalizar, transfira o valor de R$ " + str(
+                            valor) + " para:\nBanco do Brasil\nConta corrente: xxxx-x\nConta Poupança: xxxxxx-x\nNOME DO CORRENTISTA",
+                        "buttons": [
+                            {
+                                "type": "show_block",
+                                "block_name": "COMPROVANTE",
+                                "title": "Enviar comprovante"
+                            }
+                        ]
                     }
-                  }
                 }
-              ]
-            })
+            }
+        ]
+    })
 
 
 @api_view(('GET',))
@@ -153,6 +220,7 @@ def api_root(request, format=None):
         'feirantes': reverse('feirante-list', request=request, format=format)
     })
 
+
 @api_view(('GET',))
 def quantidade(request):
     response = {}
@@ -169,27 +237,26 @@ def assinatura_status(request):
     response = {}
     try:
         pass
-        #select do cliente pelo facebook idtry:
-        #p_cliente = Cliente.objects.get(facebook_id=request.data['messenger user id'])
+        # select do cliente pelo facebook idtry:
+        # p_cliente = Cliente.objects.get(facebook_id=request.data['messenger user id'])
     except Cliente.DoesNotExist:
         pass
-        #response['periodicidade'] = "0"
-        #response['quantidade'] = "0"
-        #response['endereco'] = " teste "
+        # response['periodicidade'] = "0"
+        # response['quantidade'] = "0"
+        # response['endereco'] = " teste "
 
-    #response['periodicidade'] = str(p_cliente.quantidade_semana)
+    # response['periodicidade'] = str(p_cliente.quantidade_semana)
 
-    #p_quantidade = Pedido.objects.filter(cliente=p_cliente).values('data').order_by('data')
+    # p_quantidade = Pedido.objects.filter(cliente=p_cliente).values('data').order_by('data')
 
-    #m_quantidade = len(p_quantidade)
-    #response['quantidade'] = str(m_quantidade)
+    # m_quantidade = len(p_quantidade)
+    # response['quantidade'] = str(m_quantidade)
 
-    return Response({"messages":[{"text":"🕐 Periodicidade: 2 vezes por semana \n📌 Endereço atual: 1402 Sul (ACSU-SE 140) \n📆 Quantidade de semanas a receber: 24"}]})
-
+    return Response({"messages": [{
+                                      "text": "🕐 Periodicidade: 2 vezes por semana \n📌 Endereço atual: 1402 Sul (ACSU-SE 140) \n📆 Quantidade de semanas a receber: 24"}]})
 
 
 def _json_object_hook(d): return namedtuple('X', d.keys())(*d.values())
 
 
 def json2obj(data): return json.loads(data, object_hook=_json_object_hook)
-
