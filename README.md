@@ -13,4 +13,28 @@ Objetivo 8: Promover o crescimento econômico sustentado, inclusivo e sustentáv
 Objetivo 12. Assegurar padrões de produção e de consumo sustentáveis
 
 
-http://slides.com/guilhermeferreira-2/deck
+[Segunda colocação no Hackaton da Faculdade Católica do Tocantins](https://cloud.githubusercontent.com/assets/5393392/25753994/0aeaa386-3194-11e7-8328-648638715c2f.png)
+
+#Instalação do backend
+
+Faça um cópia do projeto
+
+	git clone https://github.com/guilhermebferreira/horta-urbana.git
+
+	cd horta-urbana
+
+Realize a instalação das dependencias
+
+	pip install -r requirements.txt
+
+Sincronixe o banco de dados com as novas migrações, e se for o caso configure um banco de dados diferente em `settings.py`
+
+	python manage.py migrate
+
+#Links externos
+
+[Apresentação do Horta Urbana](https://cloud.githubusercontent.com/assets/5393392/25754921/60731c86-3197-11e7-9d96-a9df1dd7e715.png)
+
+[Veja os slides utilizados no evento](http://slides.com/guilhermeferreira-2/deck)
+
+[Máteria no site da Católica sobre os resultados do evento](http://www.catolica-to.edu.br/portal/portal/noticia/2679)
