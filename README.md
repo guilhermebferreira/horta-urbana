@@ -1,4 +1,4 @@
-# horta-urbana
+# Horta Urbana
 
 Horta Urbana é uma solução para levar as verduras e hortaliças dos produtores locais diretamente para a casa dos consumidores, através de um serviço de assinatura com entregas semanais.
 
@@ -15,7 +15,7 @@ Objetivo 12. Assegurar padrões de produção e de consumo sustentáveis
 
 [Segunda colocação no Hackaton da Faculdade Católica do Tocantins](https://cloud.githubusercontent.com/assets/5393392/25753994/0aeaa386-3194-11e7-8328-648638715c2f.png)
 
-#Instalação do backend
+## Instalação do backend
 
 Faça um cópia do projeto
 
@@ -31,7 +31,7 @@ Sincronixe o banco de dados com as novas migrações, e se for o caso configure 
 
 	python manage.py migrate
 
-#Links externos
+## Links externos
 
 [Apresentação do Horta Urbana](https://cloud.githubusercontent.com/assets/5393392/25754921/60731c86-3197-11e7-9d96-a9df1dd7e715.png)
 
