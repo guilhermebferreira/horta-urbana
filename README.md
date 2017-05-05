@@ -29,6 +29,34 @@ Sincronixe o banco de dados com as novas migrações, e se for o caso configure 
 
 	python manage.py migrate
 
+
+## Executando o backend
+
+
+	python manage.py runserver
+
+A API gera três urls que devem ser utilizadas pelo chatbot
+
+    #URLs utilizadas pelo chatbot
+    url(r'^pacotes/$', pacote_list, name='cliente-list'),
+    url(r'^pedir/$', criar_pedido, name='criar-pedido'),
+    url(r'^status/$', assinatura_status, name='assinatura-status')
+
+- http://127.0.0.1:8000/pedir/
+	- Deve ser utilizada para criar a assinatura
+	- Caso o user ainda não exista, ele é criado no momento do pedido
+	- É gerada uma ordem de pagamento baseada no pacote e na periodicidade escolhida
+
+## Chatbot
+
+Como interface de interação com o usuário final, foi implementado um chatbot
+
+Para acessa-lo vá até a [pagina do Facebook da Horta Urbana](https://www.facebook.com/Horta-Urbana-1295410903900087/?fref=ts), e clique em *Enviar mensagem*
+
+[Link da página do facebok](https://www.facebook.com/Horta-Urbana-1295410903900087/?fref=ts)
+
+[Link direto para a conversa](http://bit.ly/hurbana)
+
 ## Links externos
 
 ![Apresentação do Horta Urbana](https://cloud.githubusercontent.com/assets/5393392/25754921/60731c86-3197-11e7-9d96-a9df1dd7e715.png)

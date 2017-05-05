@@ -48,19 +48,22 @@ feirante_detail = FeiranteViewSet.as_view({
 
 urlpatterns = format_suffix_patterns([
     url(r'^$', api_root),
+    url(r'^admin/', admin.site.urls),
+    url(r'^', include('rest_framework.urls', namespace='rest_framework')),
+
     url(r'^pedidos/$', pedido_list, name='pedido-list'),
     url(r'^clientes/$', cliente_list, name='cliente-list'),
-    url(r'^pacotes/$', pacote_list, name='cliente-list'),
     url(r'^feirantes/$', feirante_list, name='feirante-list'),
-    url(r'^pedir/$', criar_pedido, name='criar-pedido'),
-    url(r'^quantidade/$', quantidade, name='quantidade'),
-    url(r'^status/$', assinatura_status, name='assinatura-status'),
-
-
     url(r'^clientes/(?P<pk>[0-9]+)/$', cliente_detail, name='cliente-detail'),
-    url(r'^', include('rest_framework.urls', namespace='rest_framework')),
-    url(r'^admin/', admin.site.urls),
-    url(r'^feirantes/(?P<pk>[0-9]+)/$', feirante_detail, name='feirante-detail')
+    url(r'^feirantes/(?P<pk>[0-9]+)/$', feirante_detail, name='feirante-detail'),
+    url(r'^quantidade/$', quantidade, name='quantidade'),
+
+    #URLs utilizadas pelo chatbot
+    url(r'^pacotes/$', pacote_list, name='cliente-list'),
+    url(r'^pedir/$', criar_pedido, name='criar-pedido'),
+    url(r'^status/$', assinatura_status, name='assinatura-status')
+
+
 ])
 
 
