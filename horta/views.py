@@ -78,94 +78,44 @@ def criar_pedido(request):
         quinta = today + datetime.timedelta((3 - today.weekday()) % 7)
         for i in range(int(request.data['meses'])):
             for d in range(4):
+                #calcula preço por periodicidade
+                valor += float(p_pacote.preco) #1x por semana - padrão
 
+                if request.data['periodicidade'] == '2':
+                    valor += float(p_pacote.preco) #2x por semana
+
+                #cria os pedidos de cada item
                 # check ALFACE
                 if (p_pacote.item_alface):
-                    novo_pedido = Pedido(
-                        cliente=p_cliente,
-                        organico=p_pacote.organico,
-                        item=ALFACE,
-                        dia_semana=1,
-                        data=terca
-                    )
-                    novo_pedido.save()
-                    valor += float(p_pacote.preco)
+
+                    cria_pedido(p_cliente, p_pacote.organico, ALFACE, 1, terca)
+                    
                     if request.data['periodicidade'] == '2':
-                        novo_pedido = Pedido(
-                            cliente=p_cliente,
-                            organico=p_pacote.organico,
-                            item=ALFACE,
-                            dia_semana=2,
-                            data=quinta
-                        )
-                        novo_pedido.save()
-                        valor += float(p_pacote.preco)
+                        cria_pedido(p_cliente, p_pacote.organico, ALFACE, 2, quinta)
 
                 # check TOMATE
                 if (p_pacote.item_tomate):
-                    novo_pedido = Pedido(
-                        cliente=p_cliente,
-                        organico=p_pacote.organico,
-                        item=TOMATE,
-                        dia_semana=1,
-                        data=terca
-                    )
-                    novo_pedido.save()
-                    valor += float(p_pacote.preco)
+
+                    cria_pedido(p_cliente, p_pacote.organico, TOMATE, 1, terca)
+                    
                     if request.data['periodicidade'] == '2':
-                        novo_pedido = Pedido(
-                            cliente=p_cliente,
-                            organico=p_pacote.organico,
-                            item=TOMATE,
-                            dia_semana=2,
-                            data=quinta
-                        )
-                        novo_pedido.save()
-                        valor += float(p_pacote.preco)
+                        cria_pedido(p_cliente, p_pacote.organico, TOMATE, 2, quinta)
 
                 # check COUVE
                 if (p_pacote.item_couve):
-                    novo_pedido = Pedido(
-                        cliente=p_cliente,
-                        organico=p_pacote.organico,
-                        item=COUVE,
-                        dia_semana=1,
-                        data=terca
-                    )
-                    novo_pedido.save()
-                    valor += float(p_pacote.preco)
-                    if request.data['periodicidade'] == '2':
-                        novo_pedido = Pedido(
-                            cliente=p_cliente,
-                            organico=p_pacote.organico,
-                            item=COUVE,
-                            dia_semana=2,
-                            data=quinta
-                        )
-                        novo_pedido.save()
-                        valor += float(p_pacote.preco)
 
-                # check COUVE
-                if (p_pacote.item_cheiroverde):
-                    novo_pedido = Pedido(
-                        cliente=p_cliente,
-                        organico=p_pacote.organico,
-                        item=CHEIROVERDE,
-                        dia_semana=1,
-                        data=terca
-                    )
-                    novo_pedido.save()
-                    valor += float(p_pacote.preco)
+                    cria_pedido(p_cliente, p_pacote.organico, COUVE, 1, terca)
+                    
                     if request.data['periodicidade'] == '2':
-                        novo_pedido = Pedido(
-                            cliente=p_cliente,
-                            organico=p_pacote.organico,
-                            item=CHEIROVERDE,
-                            dia_semana=2,
-                            data=quinta
-                        )
-                        novo_pedido.save()
-                        valor += float(p_pacote.preco)
+                        cria_pedido(p_cliente, p_pacote.organico, COUVE, 2, quinta)
+
+                # check CHEIROVERDE
+                if (p_pacote.item_cheiroverde):
+
+                    cria_pedido(p_cliente, p_pacote.organico, CHEIROVERDE, 1, terca)
+                    
+                    if request.data['periodicidade'] == '2':
+                        cria_pedido(p_cliente, p_pacote.organico, CHEIROVERDE, 2, quinta)
 
                 terca += datetime.timedelta(days=7)
                 quinta += datetime.timedelta(days=7)
@@ -204,6 +154,15 @@ def criar_pedido(request):
         ]
     })
 
+def cria_pedido(cliente, organico, item, dia_semana, data):
+    novo_pedido = Pedido(
+        cliente=cliente,
+        organico=organico,
+        item=item,
+        dia_semana=dia_semana,
+        data=data
+    )
+    novo_pedido.save()
 
 @api_view(('GET',))
 def pedidos_cliente(request, format=None):
