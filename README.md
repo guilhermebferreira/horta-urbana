@@ -13,7 +13,7 @@ Objetivo 8: Promover o crescimento econômico sustentado, inclusivo e sustentáv
 Objetivo 12. Assegurar padrões de produção e de consumo sustentáveis
 
 
-[Segunda colocação no Hackaton da Faculdade Católica do Tocantins](https://cloud.githubusercontent.com/assets/5393392/25753994/0aeaa386-3194-11e7-8328-648638715c2f.png)
+![Segunda colocação no Hackaton da Faculdade Católica do Tocantins](https://cloud.githubusercontent.com/assets/5393392/25753994/0aeaa386-3194-11e7-8328-648638715c2f.png)
 
 ## Instalação do backend
 
@@ -33,7 +33,7 @@ Sincronixe o banco de dados com as novas migrações, e se for o caso configure 
 
 ## Links externos
 
-[Apresentação do Horta Urbana](https://cloud.githubusercontent.com/assets/5393392/25754921/60731c86-3197-11e7-9d96-a9df1dd7e715.png)
+![Apresentação do Horta Urbana](https://cloud.githubusercontent.com/assets/5393392/25754921/60731c86-3197-11e7-9d96-a9df1dd7e715.png)
 
 [Veja os slides utilizados no evento](http://slides.com/guilhermeferreira-2/deck)
 
