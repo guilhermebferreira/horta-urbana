@@ -49,7 +49,7 @@ A API gera três urls que devem ser utilizadas pelo chatbot
 
 ## Chatbot
 
-Como interface de interação com o usuário final, foi implementado um chatbot
+Para interface de interação com o usuário final, foi implementado um chatbot utilizando ![Chatfuel](http://chatfuel.com)
 
 Para acessa-lo vá até a [pagina do Facebook da Horta Urbana](https://www.facebook.com/Horta-Urbana-1295410903900087/?fref=ts), e clique em *Enviar mensagem*
 
